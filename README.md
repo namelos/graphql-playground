@@ -1,5 +1,6 @@
 # react-boilerplate
-Minimalist react dev boilerplate with babel / browser-sync
+Minimalist react dev boilerplate with babel / browser-sync.
+Node 5.0 +
 
 ```
 npm install
