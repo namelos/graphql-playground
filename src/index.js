@@ -1,5 +1,18 @@
-import React from 'react'
-import { render } from 'react-dom'
+import { run } from '@cycle/core'
+import { div, label, input, hr, h1, makeDOMDriver } from '@cycle/dom'
 
-render(<h1>Hello, react!</h1>,
-  document.getElementById('app'))
+const main = ({ DOM }) => ({
+  DOM: DOM.select('.field').events('input')
+    .map(ev => ev.target.value)
+    .startWith('')
+    .map(name =>
+      div([
+        label('Name:'),
+        input('.field', {attributes: {type: 'text'}}),
+        hr(),
+        h1('Hello ' + name),
+      ])
+    )
+})
+
+run(main, { DOM: makeDOMDriver(document.getElementById('app')) })
