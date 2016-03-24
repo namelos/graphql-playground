@@ -9,6 +9,12 @@ app.use(require('webpack-dev-middleware')(webpack(config), {
   publicPath: config.output.publicPath
 }))
 
+app.get('/hello', (req, res) =>
+  res.send('namelos'))
+
+app.get('/api', (req, res) =>
+  res.send('world'))
+
 app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, 'index.html')))
 
