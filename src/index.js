@@ -1,8 +1,6 @@
 import { run } from '@cycle/core'
 import { makeDOMDriver, hJSX } from '@cycle/dom'
 import { makeHTTPDriver } from '@cycle/http'
-import { Observable } from 'rx'
-const { of, just } = Observable
 
 run(({ DOM, HTTP }) => ({
   DOM: HTTP.mergeAll().map(res => res.text).startWith('please type url:')
