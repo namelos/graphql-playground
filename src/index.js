@@ -33,7 +33,7 @@ const main = ({ DOM }) => {
   return {
     DOM: bmi$.combineLatest(weightSlider.DOM, heightSlider.DOM,
       (bmi) => <div>
-        <h2>1</h2>
+        <h2></h2>
       </div>
     )
   }
