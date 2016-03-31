@@ -1,21 +1,34 @@
-import path from 'path'
-import express from 'express'
-import webpack from 'webpack'
-import config from '../webpack.config'
-import graphqlHTTP from 'express-graphql'
+import mongoose, { Schema } from 'mongoose'
 
-import { schema } from './graphql-server'
+mongoose.connect('mongodb://localhost/test')
 
-express()
+const db = mongoose.connection
 
-.use(require('webpack-dev-middleware')(webpack(config), {
-  noInfo: true,
-  publicPath: config.output.publicPath
-}))
+db.on('error', console.error.bind(console, 'connection error'))
 
-.use('/graphql', graphqlHTTP({ schema, pretty: true }))
+db.once('open', () => {
+  console.log('connected')
+})
 
-.get('*', (req, res) =>
-  res.sendFile(path.join(__dirname, '../index.html')))
+const kittySchema = Schema({
+  name: String
+})
 
-.listen(3000, _ => console.log('listening on 3000...'))
+kittySchema.methods.speak = function() {
+  var greeting = this.name ? 'Meow name is ' + this.name : 'I do not have a name'
+  console.log(greeting)
+}
+
+const Kitten = mongoose.model('Kitten', kittySchema)
+
+const fluffy = new Kitten({ name: 'fluffy' })
+
+fluffy.save((err, fluffy) => {
+  if (err) return console.error(err)
+  fluffy.speak()
+})
+
+Kitten.find((err, kittens) => {
+  if (err) return console.error(err)
+  console.log(kittens)
+})
